@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CSV to JSON</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>CSV → JSON</h1>
+      <p class="subtitle">Drop a CSV file, or choose one, then export the converted JSON.</p>
+    </header>
+
+    <div id="dropzone" class="dropzone">
+      <p><strong>Drag & drop</strong> a CSV file here</p>
+      <p>or</p>
+      <button id="chooseFileBtn">Choose CSV File</button>
+      <p id="fileName" class="file-name"></p>
+    </div>
+
+    <div class="options">
+      <label>
+        Delimiter:
+        <select id="delimiter">
+          <option value=",">Comma (,)</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="\t">Tab</option>
+        </select>
+      </label>
+      <label>
+        <input type="checkbox" id="firstRowHeaders" checked />
+        First row is headers
+      </label>
+      <label>
+        <input type="checkbox" id="inferTypes" checked />
+        Infer numbers/booleans
+      </label>
+    </div>
+
+    <div class="preview" id="previewSection" hidden>
+      <div class="preview-header">
+        <h2>Preview</h2>
+        <div class="actions">
+          <button id="copyBtn">Copy JSON</button>
+          <button id="saveBtn" class="primary">Export JSON…</button>
+        </div>
+      </div>
+      <pre id="jsonOutput"></pre>
+    </div>
+
+    <p id="status" class="status"></p>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
