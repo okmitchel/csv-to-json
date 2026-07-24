@@ -118,6 +118,96 @@ select {
   border: 1px solid #d2d2d7;
 }
 
+.table-section {
+  margin-top: 24px;
+  background: #fff;
+  border: 1px solid #d2d2d7;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.table-section h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.table-hint {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e5e5ea;
+  border-radius: 8px;
+}
+
+#previewTable {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+#previewTable th,
+#previewTable td {
+  border-bottom: 1px solid #e5e5ea;
+  padding: 6px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+#previewTable thead th {
+  background: #f5f5f7;
+  vertical-align: top;
+}
+
+#previewTable tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+#previewTable td.excluded-col,
+#previewTable th.excluded-col {
+  opacity: 0.4;
+}
+
+.col-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.col-move {
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.col-key-input {
+  width: 110px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid #d2d2d7;
+  font-size: 13px;
+}
+
+.col-include {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: normal;
+  font-size: 11px;
+  color: #6e6e73;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.table-note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #6e6e73;
+}
+
 .preview {
   margin-top: 24px;
   background: #fff;
@@ -167,4 +257,8 @@ select {
 
 .status.success {
   color: #1a7f37;
+}
+
+.status.warning {
+  color: #b25000;
 }
