@@ -138,7 +138,8 @@ select {
 }
 
 .table-wrap {
-  overflow-x: auto;
+  overflow: auto;
+  max-height: 420px;
   border: 1px solid #e5e5ea;
   border-radius: 8px;
 }
@@ -154,12 +155,17 @@ select {
   border-bottom: 1px solid #e5e5ea;
   padding: 6px 10px;
   text-align: left;
-  white-space: nowrap;
+  max-width: 320px;
+  overflow-wrap: break-word;
 }
 
 #previewTable thead th {
   background: #f5f5f7;
   vertical-align: top;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 #previewTable tbody tr:nth-child(even) {
