@@ -1,5 +1,6 @@
 const dropzone = document.getElementById('dropzone');
 const chooseFileBtn = document.getElementById('chooseFileBtn');
+const fileInput = document.getElementById('fileInput');
 const fileNameEl = document.getElementById('fileName');
 const delimiterSelect = document.getElementById('delimiter');
 const firstRowHeadersCheckbox = document.getElementById('firstRowHeaders');
@@ -126,10 +127,23 @@ function loadCSVText(text, fileName) {
 }
 
 chooseFileBtn.addEventListener('click', async () => {
-  const result = await window.api.openCSV();
-  if (result) {
-    loadCSVText(result.content, result.fileName);
+  if (window.api) {
+    const result = await window.api.openCSV();
+    if (result) {
+      loadCSVText(result.content, result.fileName);
+    }
+    return;
   }
+  fileInput.click();
+});
+
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => loadCSVText(reader.result, file.name);
+  reader.readAsText(file);
+  fileInput.value = '';
 });
 
 ['dragenter', 'dragover'].forEach((eventName) => {
@@ -173,8 +187,22 @@ copyBtn.addEventListener('click', async () => {
 saveBtn.addEventListener('click', async () => {
   if (!currentJSON) return;
   const suggestedName = currentFileName.replace(/\.[^/.]+$/, '') + '.json';
-  const result = await window.api.saveJSON(JSON.stringify(currentJSON, null, 2), suggestedName);
-  if (result.saved) {
-    setStatus(`Saved to ${result.filePath}`, 'success');
+  const jsonString = JSON.stringify(currentJSON, null, 2);
+
+  if (window.api) {
+    const result = await window.api.saveJSON(jsonString, suggestedName);
+    if (result.saved) {
+      setStatus(`Saved to ${result.filePath}`, 'success');
+    }
+    return;
   }
+
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = suggestedName;
+  a.click();
+  URL.revokeObjectURL(url);
+  setStatus(`Downloaded ${suggestedName}`, 'success');
 });
