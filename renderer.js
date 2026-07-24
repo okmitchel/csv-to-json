@@ -2,6 +2,7 @@ const dropzone = document.getElementById('dropzone');
 const chooseFileBtn = document.getElementById('chooseFileBtn');
 const fileInput = document.getElementById('fileInput');
 const fileNameEl = document.getElementById('fileName');
+const pasteArea = document.getElementById('pasteArea');
 const delimiterSelect = document.getElementById('delimiter');
 const firstRowHeadersCheckbox = document.getElementById('firstRowHeaders');
 const inferTypesCheckbox = document.getElementById('inferTypes');
@@ -130,6 +131,7 @@ chooseFileBtn.addEventListener('click', async () => {
   if (window.api) {
     const result = await window.api.openCSV();
     if (result) {
+      pasteArea.value = '';
       loadCSVText(result.content, result.fileName);
     }
     return;
@@ -141,9 +143,21 @@ fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = () => loadCSVText(reader.result, file.name);
+  reader.onload = () => {
+    pasteArea.value = '';
+    loadCSVText(reader.result, file.name);
+  };
   reader.readAsText(file);
   fileInput.value = '';
+});
+
+let pasteDebounceTimer = null;
+pasteArea.addEventListener('input', () => {
+  clearTimeout(pasteDebounceTimer);
+  pasteDebounceTimer = setTimeout(() => {
+    if (pasteArea.value.trim() === '') return;
+    loadCSVText(pasteArea.value, null);
+  }, 250);
 });
 
 ['dragenter', 'dragover'].forEach((eventName) => {
@@ -170,7 +184,10 @@ dropzone.addEventListener('drop', (e) => {
     return;
   }
   const reader = new FileReader();
-  reader.onload = () => loadCSVText(reader.result, file.name);
+  reader.onload = () => {
+    pasteArea.value = '';
+    loadCSVText(reader.result, file.name);
+  };
   reader.readAsText(file);
 });
 
